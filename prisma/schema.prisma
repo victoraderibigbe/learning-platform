@@ -35,7 +35,7 @@ model Course {
   title       String
   description String
   category    String
-  thumbnail   String?
+  thumbnail   String?  @db.Text
   playlistUrl String?
   isPublished Boolean  @default(false)
   createdAt   DateTime @default(now())

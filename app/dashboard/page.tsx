@@ -402,14 +402,20 @@ export default function DashboardPage() {
                                 ).toLocaleDateString()}
                               </span>
                               <div className="flex items-center gap-2">
-                                <Button size="sm" variant="outline">
-                                  <Eye className="h-3 w-3 mr-1" />
-                                  View
-                                </Button>
-                                <Button size="sm" variant="outline">
-                                  <Edit className="h-3 w-3 mr-1" />
-                                  Edit
-                                </Button>
+                                <Link href={`/instructor/course/${course.id}`}>
+                                  <Button size="sm" variant="outline">
+                                    <Eye className="h-3 w-3 mr-1" />
+                                    View
+                                  </Button>
+                                </Link>
+                                <Link
+                                  href={`/instructor/course/${course.id}/edit`}
+                                >
+                                  <Button size="sm" variant="outline">
+                                    <Edit className="h-3 w-3 mr-1" />
+                                    Edit
+                                  </Button>
+                                </Link>
                               </div>
                             </div>
                           </div>

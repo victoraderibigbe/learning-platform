@@ -1,14 +1,18 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
-import { getUserFromToken } from "@/lib/auth"
+import { type NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { getUserFromToken } from "@/lib/auth";
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const token = request.headers.get("authorization")?.replace("Bearer ", "")
-    const user = token ? await getUserFromToken(token) : null
+    const { id } = await params;
+    const token = request.headers.get("authorization")?.replace("Bearer ", "");
+    const user = token ? await getUserFromToken(token) : null;
 
     const course = await prisma.course.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         instructor: {
           select: {
@@ -57,15 +61,21 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
           },
         },
       },
-    })
+    });
 
     if (!course) {
-      return NextResponse.json({ message: "Course not found" }, { status: 404 })
+      return NextResponse.json(
+        { message: "Course not found" },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ course })
+    return NextResponse.json({ course });
   } catch (error) {
-    console.error("Get course error:", error)
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 })
+    console.error("Get course error:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
